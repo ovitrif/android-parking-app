@@ -6,4 +6,8 @@
 
     <dimen name="appBarShadow">2.5dp</dimen>
 
+    <dimen name="listIconSize">52dp</dimen>
+    <dimen name="listIconText">20sp</dimen>
+    <dimen name="listItemTitle">18sp</dimen>
+
 </resources>
