@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">@android:color/white</color>
+    <color name="primaryLight">#F4F4F4</color>
+    <color name="primaryDark">#888888</color>
+    <color name="accent">#444444</color>
+    <color name="secondary">#FF5500</color>
+
+    <color name="appBg">@color/primary</color>
+    <color name="statusBar">#FEFCFC</color>
+    <color name="navigationBar">@android:color/black</color>
+
+    <color name="buttonColor">@color/secondary</color>
+    <color name="textDim">#444444</color>
+
+</resources>

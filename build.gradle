@@ -1,0 +1,23 @@
+buildscript {
+    apply from: 'build.repos.gradle'
+    apply from: 'build.versions.gradle'
+
+    addRepos(repositories)
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "org.jacoco:org.jacoco.core:$jacoco_version"
+    }
+}
+
+version = app_version_name
+group = 'com.sniped'
+
+allprojects {
+    addRepos(repositories)
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="gutter">12dp</dimen>
+    <dimen name="gutterDouble">24dp</dimen>
+
+    <dimen name="appBarShadow">2.5dp</dimen>
+
+</resources>

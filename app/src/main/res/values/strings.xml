@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Use generic-to-specific pattern, as a rule of thumb, the priority should be: what_which_how -->
+    <!-- ParkingList -->
+    <string name="parking_list_title">Parking App</string>
+</resources>

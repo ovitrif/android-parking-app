@@ -1,0 +1,83 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "$jacoco_version"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+project.afterEvaluate {
+    // pass "ui-tests" argument to include UI tests in the report. E.g.:
+    // ./gradlew jacocoFreeDebugReport -P ui-tests
+    def isIncludingUiTests = project.hasProperty('ui-tests')
+
+    android.applicationVariants.all { variant ->
+        def variantName = variant.name
+        def variantNameCapitalized = variantName.capitalize()
+        def testTaskName = "test${variantNameCapitalized}UnitTest"
+        def requiredTasks = ["$testTaskName"]
+
+        if (isIncludingUiTests) {
+            requiredTasks += "create${variantNameCapitalized}CoverageReport"
+        }
+
+        tasks.create(name: "jacoco${variantNameCapitalized}Report", type: JacocoReport, dependsOn: requiredTasks) {
+            group = "Reporting"
+            description = "Generate Jacoco coverage reports for the $variantNameCapitalized build."
+
+            reports {
+                html.enabled = true
+                xml.enabled = true
+            }
+
+            def fileFilter = [
+                    '**/*$InjectAdapter.class',
+                    '**/*$ModuleAdapter.class',
+                    '**/*$ViewBinder*.*',
+                    '**/*$ViewInjector*.*',
+                    '**/*Builder.*',
+                    '**/*JavascriptBridge.class',
+                    '**/*Test*.*',
+                    '**/AutoValue_*.*',
+                    '**/BuildConfig.*',
+                    '**/Manifest*.*',
+                    '**/R$*.class',
+                    '**/R.class',
+                    'android/**/*.*',
+                    // Dagger2 generated code
+                    '**/*_*Factory*.*',
+                    '**/*_MembersInjector*.*',
+                    '**/*_MembersInjector.class',
+                    // ButterKnife generated code
+                    '**/*_*ViewBinding*.*',
+                    // DI Code
+                    '**/*Component*.*',
+                    '**/*Module*.*',
+                    // UI Code
+                    '**/*Fragment.*',
+                    '**/*Activity.*',
+                    '**/*Navigator.*',
+                    '**/*App*.*',
+                    // Extension functions
+                    '**/extensions/**/*.*',
+            ]
+
+            def javaClasses = fileTree(dir: variant.javaCompiler.destinationDir, excludes: fileFilter)
+            def kotlinClasses = fileTree(dir: "$buildDir/tmp/kotlin-classes/$variantName", excludes: fileFilter)
+            classDirectories = files([javaClasses, kotlinClasses])
+
+            sourceDirectories = files(android.sourceSets.main.java.srcDirs)
+
+            def executionDataFiles = ["$project.buildDir/jacoco/${testTaskName}.exec"]
+
+            if (isIncludingUiTests) {
+                def flavorNameUpperCase = variant.flavorName.toUpperCase()
+                executionDataFiles += "$project.buildDir/outputs/code-coverage/connected/flavors/$flavorNameUpperCase/coverage.ec"
+            }
+
+            executionData = files(executionDataFiles)
+        }
+    }
+}
