@@ -44,5 +44,6 @@ class ParkingListActivity : BaseActivity(), IParkingList.View {
         setSupportActionBar(toolbar)
         supportActionBar?.setTitle(R.string.parking_list_title)
         parking_list.adapter = adapter
+        adapter.setListener(presenter)
     }
 }

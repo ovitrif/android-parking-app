@@ -9,4 +9,16 @@ class ParkingListAdapter : BaseAdapter() {
         clear()
         addAll(list.map(::ParkingListItem))
     }
+
+    fun setListener(listener: Listener) {
+        this.setOnItemClickListener { item, _ ->
+            if (item is ParkingListItem) {
+                listener.onItemClick(item.data)
+            }
+        }
+    }
+
+    interface Listener {
+        fun onItemClick(item: Parking)
+    }
 }

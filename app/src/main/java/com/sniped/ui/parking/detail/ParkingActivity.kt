@@ -8,6 +8,7 @@ import com.sniped.ui.BaseActivity
 import com.sniped.ui.navigator.NavigatorModule
 import com.sniped.ui.parking.detail.di.DaggerParkingComponent
 import com.sniped.ui.parking.detail.di.ParkingModule
+import com.sniped.ui.parking.domain.Parking
 import kotlinx.android.synthetic.main.view_app_bar.*
 
 class ParkingActivity : BaseActivity(), IParking.View {
@@ -19,15 +20,20 @@ class ParkingActivity : BaseActivity(), IParking.View {
         setContentView(R.layout.activity_parking)
         ButterKnife.bind(this)
 
+        val parkingViewModel = intent.getParcelableExtra(ParkingNavigator.EXTRA_PARKING_ITEM) ?: Parking.NULL
         val component = DaggerParkingComponent.builder()
                 .appComponent(App.component)
-                .parkingModule(ParkingModule(this))
                 .navigatorModule(NavigatorModule(this))
+                .parkingModule(ParkingModule(this, parkingViewModel))
                 .build()
         presenter = component.presenter()
 
         initView()
         presenter.onAttach()
+    }
+
+    override fun setTitle(text: String){
+        supportActionBar?.title = text
     }
 
     override fun onBackPressed() = presenter.onBackPressed()

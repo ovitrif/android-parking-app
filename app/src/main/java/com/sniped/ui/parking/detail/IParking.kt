@@ -2,5 +2,7 @@ package com.sniped.ui.parking.detail
 
 interface IParking {
 
-    interface View
+    interface View {
+        fun setTitle(text: String)
+    }
 }
