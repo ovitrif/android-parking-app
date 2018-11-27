@@ -11,14 +11,11 @@ import com.sniped.ui.parking.IParkingList
 import com.sniped.ui.parking.ParkingListPresenter
 import com.sniped.ui.parking.detail.ParkingNavigatorFactory
 import com.sniped.ui.parking.domain.Parking
-import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 
 class ParkingListPresenterTest : MockitoTest() {
-
-    private val testScheduler = TestScheduler()
 
     @Mock private lateinit var view: IParkingList.View
     @Mock private lateinit var apiService: ApiService
@@ -29,8 +26,6 @@ class ParkingListPresenterTest : MockitoTest() {
 
     @Before
     fun setUp() {
-        whenever(rxSchedulers.io).thenReturn(testScheduler)
-        whenever(rxSchedulers.ui).thenReturn(testScheduler)
         presenter = ParkingListPresenter(
                 view,
                 apiService,
