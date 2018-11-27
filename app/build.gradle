@@ -7,7 +7,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId 'com.sniped'
+        applicationId 'com.parkingapp'
         minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true

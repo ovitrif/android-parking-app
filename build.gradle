@@ -12,7 +12,7 @@ buildscript {
 }
 
 version = app_version_name
-group = 'com.sniped'
+group = 'com.parkingapp'
 
 allprojects {
     addRepos(repositories)
