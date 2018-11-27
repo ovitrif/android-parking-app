@@ -13,5 +13,6 @@ class GetParkingList @Inject constructor(
         return apiService.getParkingList()
                 .subscribeOn(rxSchedulers.io)
                 .map { it.map(Parking.Companion::fromDto) }
+                .map { it.sortedBy(Parking::description) }
     }
 }
