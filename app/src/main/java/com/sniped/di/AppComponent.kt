@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.sniped.api.ApiService
-import com.sniped.core.Threads
+import com.sniped.core.RxSchedulers
 import dagger.Component
 import javax.inject.Singleton
 
@@ -21,9 +21,9 @@ interface AppComponent {
     fun inject(broadcastReceiver: BroadcastReceiver)
     fun inject(service: Service)
 
-    fun context(): Context
-    fun gson(): Gson
-    fun apiService(): ApiService
-    fun threads(): Threads
-    fun sharedPreferences(): SharedPreferences
+    val context: Context
+    val gson: Gson
+    val apiService: ApiService
+    val rxSchedulers: RxSchedulers
+    val sharedPreferences: SharedPreferences
 }

@@ -2,14 +2,12 @@ package com.sniped.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Handler
-import android.os.Looper
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.sniped.R
 import com.sniped.api.ApiService
 import com.sniped.api.ApiServiceBuilder
-import com.sniped.core.Threads
+import com.sniped.core.RxSchedulers
 import com.sniped.core.config.AppConfig
 import dagger.Module
 import dagger.Provides
@@ -42,7 +40,7 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideThreads() = Threads(Handler(Looper.getMainLooper()))
+    fun provideRxSchedulers() = RxSchedulers()
 
     @Provides
     @Singleton
