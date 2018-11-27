@@ -13,11 +13,13 @@ class ParkingListItem(
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.apply {
-            icon_text_view.text = data.name.split(" ").first()
+            icon_text_view.text = data.name.substring(0..2)
             title_view.text = data.description
-            subtitle_view.text = data.parkingStatus.availableCapacity.toString()
-            // TODO calculate and use distance
-            distance_view.text = data.latitude.toString()
+            subtitle_view.text = data.availableCapacity.toString()
+
+            if (!data.distance.isNaN()) {
+                distance_view.text = data.distance.toString()
+            }
         }
     }
 }

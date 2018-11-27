@@ -7,6 +7,7 @@ import com.parkingapp.R
 import com.parkingapp.ui.BaseActivity
 import com.parkingapp.ui.navigator.NavigatorModule
 import com.parkingapp.ui.parking.adapter.ParkingListAdapter
+import com.parkingapp.ui.parking.adapter.ParkingListItem
 import com.parkingapp.ui.parking.di.DaggerParkingListComponent
 import com.parkingapp.ui.parking.di.ParkingListModule
 import com.parkingapp.ui.parking.domain.Parking
@@ -38,7 +39,7 @@ class ParkingListActivity : BaseActivity(), IParkingList.View {
         moveTaskToBack(true)
     }
 
-    override fun setParkingList(list: List<Parking>) = adapter.setData(list)
+    override fun setParkingList(list: List<Parking>) = adapter.setData(list.map(::ParkingListItem))
 
     private fun initView() {
         setSupportActionBar(toolbar)

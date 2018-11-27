@@ -32,7 +32,7 @@ class ParkingActivity : BaseActivity(), IParking.View {
         presenter.onAttach()
     }
 
-    override fun setTitle(text: String){
+    override fun setTitle(text: String) {
         supportActionBar?.title = text
     }
 

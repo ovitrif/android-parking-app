@@ -5,9 +5,9 @@ import com.parkingapp.ui.parking.domain.Parking
 
 class ParkingListAdapter : BaseAdapter() {
 
-    fun setData(list: List<Parking>) {
+    fun setData(list: List<ParkingListItem>) {
         clear()
-        addAll(list.map(::ParkingListItem))
+        addAll(list)
     }
 
     fun setListener(listener: Listener) {
