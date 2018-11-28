@@ -10,6 +10,7 @@ import com.parkingapp.ui.parking.IParkingList
 import com.parkingapp.ui.parking.ParkingListPresenter
 import com.parkingapp.ui.parking.detail.ParkingNavigatorFactory
 import com.parkingapp.ui.parking.domain.GetParkingList
+import com.parkingapp.ui.parking.domain.LocationGetter
 import com.parkingapp.ui.parking.domain.Parking
 import org.junit.Before
 import org.junit.Test
@@ -20,6 +21,7 @@ class ParkingListPresenterTest : MockitoTest() {
     @Mock private lateinit var view: IParkingList.View
     @Mock private lateinit var getParkingList: GetParkingList
     @Mock private lateinit var rxSchedulers: RxSchedulers
+    @Mock private lateinit var locationGetter: LocationGetter
     @Mock private lateinit var parkingNavigatorFactory: ParkingNavigatorFactory
 
     private lateinit var presenter: ParkingListPresenter
@@ -29,6 +31,7 @@ class ParkingListPresenterTest : MockitoTest() {
         presenter = ParkingListPresenter(
                 view,
                 getParkingList,
+                locationGetter,
                 rxSchedulers,
                 parkingNavigatorFactory)
     }

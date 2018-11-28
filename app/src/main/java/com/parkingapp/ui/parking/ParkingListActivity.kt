@@ -1,6 +1,7 @@
 package com.parkingapp.ui.parking
 
 import android.os.Bundle
+import android.view.View
 import butterknife.ButterKnife
 import com.parkingapp.App
 import com.parkingapp.R
@@ -12,7 +13,7 @@ import com.parkingapp.ui.parking.di.DaggerParkingListComponent
 import com.parkingapp.ui.parking.di.ParkingListModule
 import com.parkingapp.ui.parking.domain.Parking
 import kotlinx.android.synthetic.main.activity_parking_list.*
-import kotlinx.android.synthetic.main.view_app_bar.*
+import kotlinx.android.synthetic.main.app_bar_parking_list.*
 
 class ParkingListActivity : BaseActivity(), IParkingList.View {
 
@@ -27,12 +28,21 @@ class ParkingListActivity : BaseActivity(), IParkingList.View {
         val component = DaggerParkingListComponent.builder()
                 .appComponent(App.component)
                 .navigatorModule(NavigatorModule(this))
-                .parkingListModule(ParkingListModule(this))
+                .parkingListModule(ParkingListModule(this, this))
                 .build()
         presenter = component.presenter()
 
         initView()
+    }
+
+    override fun onStart() {
+        super.onStart()
         presenter.onAttach()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onDetach()
     }
 
     override fun onBackPressed() {
@@ -43,7 +53,11 @@ class ParkingListActivity : BaseActivity(), IParkingList.View {
 
     private fun initView() {
         setSupportActionBar(toolbar)
-        supportActionBar?.setTitle(R.string.parking_list_title)
+        supportActionBar?.setCustomView(R.layout.app_bar_parking_list)
+        toolbar_title.setText(R.string.app_name)
+
+        refresh_view.setOnRefreshListener(presenter)
+
         parking_list.adapter = adapter
         adapter.setListener(presenter)
     }

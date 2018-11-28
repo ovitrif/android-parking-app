@@ -1,6 +1,7 @@
 package com.parkingapp.ui.parking.domain
 
 import android.os.Parcelable
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -9,11 +10,10 @@ data class Parking(
         val address: String = "",
         val contactInfo: String = "",
         val description: String = "",
-        val latitude: Double = 0.0,
-        val longitude: Double = 0.0,
-        val distance: Double = Double.NaN,
+        val latLng: LatLng = LatLng(Double.NaN, Double.NaN),
         val totalCapacity: Int = 0,
-        val availableCapacity: Int = 0) : Parcelable {
+        val availableCapacity: Int = 0,
+        val distance: Double = Double.NaN) : Parcelable {
 
     companion object {
         val NULL = Parking()
@@ -24,8 +24,7 @@ data class Parking(
                     address = dto.address,
                     contactInfo = dto.contactInfo,
                     description = dto.description,
-                    latitude = dto.latitude,
-                    longitude = dto.longitude,
+                    latLng = LatLng(dto.latitude, dto.longitude),
                     totalCapacity = dto.totalCapacity,
                     availableCapacity = dto.parkingStatus.availableCapacity)
         }

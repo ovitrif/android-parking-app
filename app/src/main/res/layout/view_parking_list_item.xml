@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:padding="@dimen/gutter">
@@ -44,11 +43,11 @@
             tools:text="@tools:sample/lorem[1]" />
 
         <TextView
-            android:drawableStart="@drawable/ic_car_accent_18dp"
-            android:drawablePadding="@dimen/gutterHalf"
             android:id="@+id/subtitle_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/gutterHalf"
+            android:drawableStart="@drawable/ic_car_accent_18dp"
             tools:text="@tools:sample/lorem[4]" />
     </LinearLayout>
 

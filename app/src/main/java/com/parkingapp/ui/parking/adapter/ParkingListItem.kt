@@ -18,7 +18,9 @@ class ParkingListItem(
             subtitle_view.text = data.availableCapacity.toString()
 
             if (!data.distance.isNaN()) {
-                distance_view.text = data.distance.toString()
+                distance_view.text = "${data.distance.toShort()}m"
+            } else {
+                distance_view.text = null
             }
         }
     }

@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name="com.parkingapp.App"
@@ -15,9 +17,7 @@
         android:roundIcon="@mipmap/ic_app_round"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name="com.parkingapp.ui.parking.ParkingListActivity"
-            android:screenOrientation="portrait">
+        <activity android:name="com.parkingapp.ui.parking.ParkingListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -25,9 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.parkingapp.ui.parking.detail.ParkingActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name="com.parkingapp.ui.parking.detail.ParkingActivity" />
     </application>
 
 </manifest>
