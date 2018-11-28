@@ -1,5 +1,7 @@
 package com.parkingapp.ui.parking
 
+import android.graphics.Color
+import androidx.core.graphics.ColorUtils
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.SphericalUtil
@@ -31,6 +33,11 @@ class ParkingListPresenter @Inject constructor(
         disposeBag += fetchLocation().subscribeEmpty()
 
         disposeBag += state
+                .doOnEach {
+                    if (it.isOnError && !view.hasItems()) {
+                        view.showErrorView()
+                    }
+                }
                 .doOnNext(this::onUpdate)
                 .subscribeEmpty()
     }
@@ -50,6 +57,8 @@ class ParkingListPresenter @Inject constructor(
                 data.latLng.isNotEmpty() -> view.setParkingList(data.sortItemsByDistance())
                 else -> view.setParkingList(data.parkingLots)
             }
+            view.hideErrorView()
+
             val availableCapacity = data.parkingLots.sumBy { it.availableCapacity }
             view.setCounterValue(availableCapacity)
             view.setCounterColor(availableCapacity.toCounterColor())

@@ -1,7 +1,10 @@
 package com.parkingapp.ui.parking
 
+import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.ColorInt
 import butterknife.ButterKnife
 import com.parkingapp.App
 import com.parkingapp.R
@@ -64,6 +67,9 @@ class ParkingListActivity : BaseActivity(), IParkingList.View {
         }
     }
 
+    override fun showErrorView() = with(error_view) { visibility = View.VISIBLE }
+
+    override fun hideErrorView() = with(error_view) { visibility = View.GONE }
     private fun initView() {
         setSupportActionBar(toolbar)
         supportActionBar?.setCustomView(R.layout.app_bar_parking_list)
