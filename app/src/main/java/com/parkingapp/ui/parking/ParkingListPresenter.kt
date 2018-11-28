@@ -61,9 +61,8 @@ class ParkingListPresenter @Inject constructor(
             }
             view.hideErrorView()
 
-            val availableCapacity = data.parkingLots.sumBy { it.availableCapacity }
-            view.setCounterValue(availableCapacity)
-            view.setCounterColor(availableCapacity.toCounterColor())
+            view.setCounterValue(data.counter)
+            view.setCounterColor(data.counter.toCounterColor())
         }
     }
 
@@ -76,7 +75,8 @@ class ParkingListPresenter @Inject constructor(
                     view.hideProgressView()
 
                     val latLng = state.value?.latLng ?: LocationGetter.NO_LOCATION
-                    state.onNext(State(latLng, items))
+                    val counter = items.sumBy { it.availableCapacity }
+                    state.onNext(State(latLng, items, counter))
                 }
                 .doOnError(state::onError)
     }
@@ -88,8 +88,9 @@ class ParkingListPresenter @Inject constructor(
                 .doOnNext { latLng ->
                     view.hideProgressView()
 
+                    val counter = state.value?.counter ?: 0
                     val items = state.value?.parkingLots ?: emptyList()
-                    state.onNext(State(latLng, items))
+                    state.onNext(State(latLng, items, counter))
                 }
     }
 
@@ -106,5 +107,8 @@ class ParkingListPresenter @Inject constructor(
         return ColorUtils.blendARGB(Color.RED, Color.GREEN, colorRatio)
     }
 
-    private data class State(val latLng: LatLng, val parkingLots: List<Parking>)
+    private data class State(
+            val latLng: LatLng,
+            val parkingLots: List<Parking>,
+            val counter: Int)
 }
