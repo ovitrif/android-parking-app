@@ -46,6 +46,8 @@
             android:id="@+id/subtitle_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/gutterHalf"
+            android:drawableStart="@drawable/ic_car_accent_18dp"
             tools:text="@tools:sample/lorem[4]" />
     </LinearLayout>
 

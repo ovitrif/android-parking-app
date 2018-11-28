@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.parkingapp.api.ApiService
 import com.parkingapp.core.RxSchedulers
+import com.patloew.rxlocation.RxLocation
 import dagger.Component
 import javax.inject.Singleton
 
@@ -25,5 +26,6 @@ interface AppComponent {
     val gson: Gson
     val apiService: ApiService
     val rxSchedulers: RxSchedulers
+    val rxLocation: RxLocation
     val sharedPreferences: SharedPreferences
 }

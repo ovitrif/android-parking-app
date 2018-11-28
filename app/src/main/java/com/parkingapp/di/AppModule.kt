@@ -9,6 +9,7 @@ import com.parkingapp.api.ApiService
 import com.parkingapp.api.ApiServiceBuilder
 import com.parkingapp.core.RxSchedulers
 import com.parkingapp.core.config.AppConfig
+import com.patloew.rxlocation.RxLocation
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -41,6 +42,10 @@ class AppModule(private val context: Context) {
     @Provides
     @Singleton
     fun provideRxSchedulers() = RxSchedulers()
+
+    @Provides
+    @Singleton
+    fun provideRxLocation() = RxLocation(context)
 
     @Provides
     @Singleton

@@ -9,7 +9,7 @@ import com.parkingapp.ui.navigator.NavigatorModule
 import com.parkingapp.ui.parking.detail.di.DaggerParkingComponent
 import com.parkingapp.ui.parking.detail.di.ParkingModule
 import com.parkingapp.ui.parking.domain.Parking
-import kotlinx.android.synthetic.main.view_app_bar.*
+import kotlinx.android.synthetic.main.activity_parking.*
 
 class ParkingActivity : BaseActivity(), IParking.View {
 
@@ -32,7 +32,7 @@ class ParkingActivity : BaseActivity(), IParking.View {
         presenter.onAttach()
     }
 
-    override fun setTitle(text: String){
+    override fun setTitle(text: String) {
         supportActionBar?.title = text
     }
 
