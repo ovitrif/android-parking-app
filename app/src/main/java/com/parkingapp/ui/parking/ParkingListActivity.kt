@@ -49,7 +49,20 @@ class ParkingListActivity : BaseActivity(), IParkingList.View {
         moveTaskToBack(true)
     }
 
-    override fun setParkingList(list: List<Parking>) = adapter.setData(list.map(::ParkingListItem))
+    override fun setParkingList(list: List<Parking>) {
+        parking_list.visibility = View.VISIBLE
+        adapter.setData(list.map(::ParkingListItem))
+    }
+
+    override fun setCounterValue(count: Int) = with(count_view) { text = count.toString() }
+
+    override fun setCounterColor(@ColorInt color: Int) = with(count_view) {
+        setTextColor(color)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            compoundDrawableTintList = ColorStateList.valueOf(color)
+        }
+    }
 
     private fun initView() {
         setSupportActionBar(toolbar)

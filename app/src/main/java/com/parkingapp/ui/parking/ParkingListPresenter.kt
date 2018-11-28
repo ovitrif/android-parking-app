@@ -50,6 +50,9 @@ class ParkingListPresenter @Inject constructor(
                 data.latLng.isNotEmpty() -> view.setParkingList(data.sortItemsByDistance())
                 else -> view.setParkingList(data.parkingLots)
             }
+            val availableCapacity = data.parkingLots.sumBy { it.availableCapacity }
+            view.setCounterValue(availableCapacity)
+            view.setCounterColor(availableCapacity.toCounterColor())
         }
     }
 
@@ -81,6 +84,11 @@ class ParkingListPresenter @Inject constructor(
         return this.parkingLots
                 .map { it.copy(distance = SphericalUtil.computeDistanceBetween(latLng, it.latLng)) }
                 .sortedBy { it.distance }
+    }
+
+    private fun Int.toCounterColor(): Int {
+        val colorRatio = this.coerceAtMost(255) / 255F
+        return ColorUtils.blendARGB(Color.RED, Color.GREEN, colorRatio)
     }
 
     private data class State(val latLng: LatLng, val parkingLots: List<Parking>)
