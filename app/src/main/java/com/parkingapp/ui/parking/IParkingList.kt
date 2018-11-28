@@ -9,5 +9,9 @@ interface IParkingList {
         fun setParkingList(list: List<Parking>)
         fun setCounterValue(count: Int)
         fun setCounterColor(@ColorInt color: Int)
+        fun showErrorView()
+        fun hideErrorView()
+        fun hideProgressView()
+        fun hasItems(): Boolean
     }
 }

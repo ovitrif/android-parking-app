@@ -34,6 +34,8 @@ class ParkingListPresenter @Inject constructor(
 
         disposeBag += state
                 .doOnEach {
+                    view.hideProgressView()
+
                     if (it.isOnError && !view.hasItems()) {
                         view.showErrorView()
                     }
@@ -71,6 +73,8 @@ class ParkingListPresenter @Inject constructor(
                 .flatMap { getParkingList.execute() }
                 .observeOn(rxSchedulers.ui)
                 .doOnNext { items ->
+                    view.hideProgressView()
+
                     val latLng = state.value?.latLng ?: LocationGetter.NO_LOCATION
                     state.onNext(State(latLng, items))
                 }
@@ -82,6 +86,8 @@ class ParkingListPresenter @Inject constructor(
                 .subscribeOn(rxSchedulers.io)
                 .observeOn(rxSchedulers.ui)
                 .doOnNext { latLng ->
+                    view.hideProgressView()
+
                     val items = state.value?.parkingLots ?: emptyList()
                     state.onNext(State(latLng, items))
                 }

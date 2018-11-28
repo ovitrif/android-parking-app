@@ -70,6 +70,16 @@ class ParkingListActivity : BaseActivity(), IParkingList.View {
     override fun showErrorView() = with(error_view) { visibility = View.VISIBLE }
 
     override fun hideErrorView() = with(error_view) { visibility = View.GONE }
+
+    override fun hideProgressView() {
+        refresh_view.isRefreshing = false
+        progress_view.hide()
+    }
+
+    override fun hasItems(): Boolean {
+        return adapter.itemCount != 0
+    }
+
     private fun initView() {
         setSupportActionBar(toolbar)
         supportActionBar?.setCustomView(R.layout.app_bar_parking_list)
