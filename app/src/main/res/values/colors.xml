@@ -11,6 +11,8 @@
     <color name="statusBar">#FEFCFC</color>
     <color name="navigationBar">@android:color/black</color>
 
+    <color name="divider">#EEEEEE</color>
+
     <color name="buttonColor">@color/secondary</color>
     <color name="textDim">#999999</color>
     <color name="textDark">#333333</color>

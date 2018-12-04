@@ -2,7 +2,6 @@ package com.parkingapp.ui.parking.detail.di
 
 import com.parkingapp.ui.parking.detail.IParking
 import com.parkingapp.ui.parking.domain.Parking
-import com.parkingapp.ui.parking.domain.ParkingDto
 import dagger.Module
 import dagger.Provides
 

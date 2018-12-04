@@ -11,4 +11,6 @@
     <dimen name="listIconText">20sp</dimen>
     <dimen name="listItemTitle">18sp</dimen>
 
+    <dimen name="parkingMapHeight">320dp</dimen>
+
 </resources>

@@ -9,6 +9,7 @@ import com.parkingapp.ui.navigator.NavigatorModule
 import com.parkingapp.ui.parking.detail.di.DaggerParkingComponent
 import com.parkingapp.ui.parking.detail.di.ParkingModule
 import com.parkingapp.ui.parking.domain.Parking
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_parking.*
 
 class ParkingActivity : BaseActivity(), IParking.View {
@@ -32,11 +33,25 @@ class ParkingActivity : BaseActivity(), IParking.View {
         presenter.onAttach()
     }
 
-    override fun setTitle(text: String) {
-        supportActionBar?.title = text
-    }
-
     override fun onBackPressed() = presenter.onBackPressed()
+
+    override fun showParkingName(text: String) = supportActionBar?.let { title = text } ?: Unit
+
+    override fun showContactDetails(info: String) = with(contact_details_view) { text = info }
+
+    override fun showAddress(address: String) = with(address_view) { text = address }
+
+    override fun showMap() = with(map_view) { visibility = android.view.View.VISIBLE }
+
+    override fun setMapUrl(url: String) {
+        if (url.isNotBlank()) {
+            Picasso.get()
+                    .load(url)
+                    .fit()
+                    .centerCrop()
+                    .into(map_view)
+        }
+    }
 
     private fun initView() {
         setSupportActionBar(toolbar)

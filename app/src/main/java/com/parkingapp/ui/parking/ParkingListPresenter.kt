@@ -1,47 +1,36 @@
 package com.parkingapp.ui.parking
 
-import android.graphics.Color
-import androidx.core.graphics.ColorUtils
+import androidx.annotation.VisibleForTesting
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.SphericalUtil
 import com.parkingapp.core.RxSchedulers
 import com.parkingapp.extensions.subscribeEmpty
 import com.parkingapp.ui.BasePresenter
 import com.parkingapp.ui.parking.adapter.ParkingListAdapter
 import com.parkingapp.ui.parking.detail.ParkingNavigatorFactory
-import com.parkingapp.ui.parking.domain.GetParkingList
-import com.parkingapp.ui.parking.domain.LocationGetter
-import com.parkingapp.ui.parking.domain.Parking
+import com.parkingapp.ui.parking.domain.*
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.subjects.BehaviorSubject
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ParkingListPresenter @Inject constructor(
         private val view: IParkingList.View,
         private val getParkingList: GetParkingList,
         private val locationGetter: LocationGetter,
+        private val parkingListTransformer: ParkingListTransformer,
+        private val counterToColorMapper: CounterToColorMapper,
         private val rxSchedulers: RxSchedulers,
-        private val parkingNavigatorFactory: ParkingNavigatorFactory) : BasePresenter(), ParkingListAdapter.Listener, SwipeRefreshLayout.OnRefreshListener {
+        private val parkingNavigatorFactory: ParkingNavigatorFactory)
+    : BasePresenter(), ParkingListAdapter.Listener, SwipeRefreshLayout.OnRefreshListener {
 
-    private var state: BehaviorSubject<State> = BehaviorSubject.create()
+    @VisibleForTesting
+    internal var state: BehaviorSubject<State> = BehaviorSubject.create()
 
     override fun onAttach() {
         disposeBag += fetchParkingLots().subscribeEmpty()
         disposeBag += fetchLocation().subscribeEmpty()
-
-        disposeBag += state
-                .doOnEach {
-                    view.hideProgressView()
-
-                    if (it.isOnError && !view.hasItems()) {
-                        view.showErrorView()
-                    }
-                }
-                .doOnNext(this::onUpdate)
-                .subscribeEmpty()
+        disposeBag += listenToStateChanges().subscribeEmpty()
     }
 
     override fun onItemClick(item: Parking) = parkingNavigatorFactory.create(item).navigate()
@@ -53,31 +42,10 @@ class ParkingListPresenter @Inject constructor(
         onAttach()
     }
 
-    private fun onUpdate(data: State) {
-        if (data.parkingLots.isNotEmpty()) {
-            when {
-                data.latLng.isNotEmpty() -> view.setParkingList(data.sortItemsByDistance())
-                else -> view.setParkingList(data.parkingLots)
-            }
-            view.hideErrorView()
-
-            view.setCounterValue(data.counter)
-            view.setCounterColor(data.counter.toCounterColor())
-        }
-    }
-
     private fun fetchParkingLots(): Observable<List<Parking>> {
-        return Observable.interval(0, 1, TimeUnit.MINUTES)
-                .subscribeOn(rxSchedulers.io)
-                .flatMap { getParkingList.execute() }
+        return getParkingList.poll()
                 .observeOn(rxSchedulers.ui)
-                .doOnNext { items ->
-                    view.hideProgressView()
-
-                    val latLng = state.value?.latLng ?: LocationGetter.NO_LOCATION
-                    val counter = items.sumBy { it.availableCapacity }
-                    state.onNext(State(latLng, items, counter))
-                }
+                .doOnNext { items -> state.onNext(State(state.latLng, items, items.sumBy { it.availableCapacity })) }
                 .doOnError(state::onError)
     }
 
@@ -85,29 +53,45 @@ class ParkingListPresenter @Inject constructor(
         return locationGetter.get()
                 .subscribeOn(rxSchedulers.io)
                 .observeOn(rxSchedulers.ui)
-                .doOnNext { latLng ->
-                    view.hideProgressView()
+                .doOnNext { state.onNext(State(it, state.parkingLots, state.counter)) }
+    }
 
-                    val counter = state.value?.counter ?: 0
-                    val items = state.value?.parkingLots ?: emptyList()
-                    state.onNext(State(latLng, items, counter))
+    private fun listenToStateChanges(): Observable<State> {
+        return state
+                .doOnEach {
+                    view.hideProgressView()
                 }
+                .doOnError {
+                    if (!view.hasItems()) {
+                        view.showErrorView()
+                    }
+                }
+                .doOnNext(this::onUpdate)
+    }
+
+    private fun onUpdate(data: State) {
+        if (data.parkingLots.isNotEmpty()) {
+            when {
+                data.latLng.isNotEmpty() -> {
+                    val decoratedList = parkingListTransformer.forLocation(data.parkingLots, data.latLng)
+                    view.setParkingList(decoratedList)
+                }
+                else -> view.setParkingList(data.parkingLots)
+            }
+            view.hideErrorView()
+
+            view.setCounterValue(data.counter)
+            view.setCounterColor(counterToColorMapper.map(data.counter))
+        }
     }
 
     private fun LatLng.isNotEmpty() = this != LocationGetter.NO_LOCATION
 
-    private fun State.sortItemsByDistance(): List<Parking> {
-        return this.parkingLots
-                .map { it.copy(distance = SphericalUtil.computeDistanceBetween(latLng, it.latLng)) }
-                .sortedBy { it.distance }
-    }
+    private val BehaviorSubject<State>.latLng get() = this.value?.latLng ?: LocationGetter.NO_LOCATION
+    private val BehaviorSubject<State>.parkingLots get() = this.value?.parkingLots ?: emptyList()
+    private val BehaviorSubject<State>.counter get() = this.value?.counter ?: 0
 
-    private fun Int.toCounterColor(): Int {
-        val colorRatio = this.coerceAtMost(255) / 255F
-        return ColorUtils.blendARGB(Color.RED, Color.GREEN, colorRatio)
-    }
-
-    private data class State(
+    data class State(
             val latLng: LatLng,
             val parkingLots: List<Parking>,
             val counter: Int)

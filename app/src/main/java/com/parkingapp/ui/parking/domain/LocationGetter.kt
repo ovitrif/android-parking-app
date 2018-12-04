@@ -8,7 +8,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.patloew.rxlocation.RxLocation
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
-import io.reactivex.Single
 import javax.inject.Inject
 
 class LocationGetter @Inject constructor(
@@ -22,7 +21,7 @@ class LocationGetter @Inject constructor(
 
     private var locationRequest = LocationRequest.create()
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            .setInterval(20 * 1000)
+            .setInterval(5 * 1000)
             .setFastestInterval(5 * 1000)
             .setSmallestDisplacement(25F)
 

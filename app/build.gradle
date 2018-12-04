@@ -24,6 +24,8 @@ android {
         }
 
         dexOptions.javaMaxHeapSize '3g'
+
+        buildConfigField 'String', 'GOOGLE_STATIC_MAPS_KEY', GOOGLE_STATIC_MAPS_KEY
     }
 
     buildTypes {
@@ -116,6 +118,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
+    // Static Maps
+    implementation 'com.github.renaudcerrato:static-maps-api:1.0.4'
     // Test Libs
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:4.0.1'

@@ -1,10 +1,7 @@
 package com.parkingapp.ui.parking.domain
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class ParkingDto(
         val id: Int = 0,
         val address: String = "",
@@ -21,32 +18,28 @@ data class ParkingDto(
         val parkingStatus: ParkingStatus = ParkingStatus(),
         val suggestedFreeThreshold: Int = 0,
         val suggestedFullThreshold: Int = 0,
-        val totalCapacity: Int = 0) : Parcelable {
+        val totalCapacity: Int = 0) {
 
-    @Parcelize
     data class City(
             val id: Int = 0,
-            val name: String = "") : Parcelable
+            val name: String = "")
 
-    @Parcelize
     data class ParkingServer(
             val id: Int = 0,
-            val name: String = "") : Parcelable
+            val name: String = "")
 
-    @Parcelize
     data class OpeningTime(
             val days: List<String> = listOf(),
             val from: String = "",
-            val to: String = "") : Parcelable
+            val to: String = "")
 
-    @Parcelize
     data class ParkingStatus(
             val activeRoute: String = "",
             val availableCapacity: Int = 0,
             val lastModifiedDate: String = "",
             @SerializedName("open") val isOpen: Boolean = false,
             val suggestedCapacity: String = "",
-            val totalCapacity: Int = 0) : Parcelable
+            val totalCapacity: Int = 0)
 
     companion object {
         val NULL = ParkingDto()
