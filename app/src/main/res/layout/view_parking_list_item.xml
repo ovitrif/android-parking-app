@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="@dimen/gutter">
+
+    <FrameLayout
+        android:layout_width="@dimen/listIconSize"
+        android:layout_height="@dimen/listIconSize"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/gutter"
+        android:background="@drawable/circle_shape">
+
+        <TextView
+            android:id="@+id/icon_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/appBg"
+            android:textSize="@dimen/listIconText"
+            android:textStyle="bold"
+            tools:text="P01" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDark"
+            android:textSize="@dimen/listItemTitle"
+            android:textStyle="bold"
+            tools:text="@tools:sample/lorem[1]" />
+
+        <TextView
+            android:id="@+id/subtitle_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/gutterHalf"
+            android:drawableStart="@drawable/ic_car_accent_18dp"
+            tools:text="@tools:sample/lorem[4]" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/distance_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:gravity="end"
+        android:textColor="@color/textDim"
+        tools:text="@tools:sample/us_zipcodes" />
+</LinearLayout>

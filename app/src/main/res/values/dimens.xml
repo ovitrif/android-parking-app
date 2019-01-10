@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="gutterHalf">6dp</dimen>
     <dimen name="gutter">12dp</dimen>
     <dimen name="gutterDouble">24dp</dimen>
 
     <dimen name="appBarShadow">2.5dp</dimen>
+
+    <dimen name="listIconSize">52dp</dimen>
+    <dimen name="listIconText">20sp</dimen>
+    <dimen name="listItemTitle">18sp</dimen>
+
+    <dimen name="parkingMapHeight">320dp</dimen>
 
 </resources>

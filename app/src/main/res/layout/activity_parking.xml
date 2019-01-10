@@ -2,18 +2,53 @@
 <LinearLayout
     android:id="@+id/root_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <include layout="@layout/view_app_bar" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/layout_appbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationZ="@dimen/appBarShadow"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            tools:title="@string/app_name" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/parkingMapHeight"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            tools:src="@tools:sample/backgrounds/scenic[6]"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/address_view"
+            style="@style/AppTheme.InfoItem"
+            tools:text="@tools:sample/lorem[5]" />
+
+        <TextView
+            android:id="@+id/contact_details_view"
+            style="@style/AppTheme.InfoItem"
+            tools:text="@tools:sample/us_phones" />
 
     </LinearLayout>
 
